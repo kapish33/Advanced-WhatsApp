@@ -5,6 +5,8 @@ const {
   Buttons,
   LocalAuth,
 } = require('whatsapp-web.js');
+const admins = require('./admins/admin');
+const { sendCommonTextMessage } = require('./utils/Functions/common.functions');
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -36,14 +38,18 @@ client.on('ready', () => {
 });
 
 client.on('message', async (msg) => {
-  // onsole.log('MESSAGE RECEIVED', msg);
-  const message = msg.body;
+  console.log('MESSAGE RECEIVED', msg);
+
   if (admins.includes(msg.from) && !msg.isGroup) {
+    console.log('ADMIN');
     /**
      * @type if message is not form any group
      * @private
      * @can be used by Admins only
      */
+    if (msg.body.toLocaleLowerCase()) {
+      client.sendMessage(...sendCommonTextMessage(msg.from, msg.body));
+    }
   } else if (msg.isGroup) {
     /**
      * @type if message is from a group

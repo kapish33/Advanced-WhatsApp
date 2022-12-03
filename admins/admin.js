@@ -5,6 +5,7 @@ const admins = [
   '917984399290@c.us',
   '917016702176@c.us',
   '919999488644@c.us',
+  '918668619650@c.us',
 ];
 
 module.exports = admins;

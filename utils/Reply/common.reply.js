@@ -1,3 +1,4 @@
-export const CommonReplyes = {
-  sudersankriya: 'SKY',
+const CommonReplyes = {
+  sky: 'SKY',
 };
+module.exports = CommonReplyes;
