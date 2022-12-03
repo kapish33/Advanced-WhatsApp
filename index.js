@@ -6,6 +6,7 @@ const {
   LocalAuth,
 } = require('whatsapp-web.js');
 const admins = require('./admins/admin');
+const { generateNumbers } = require('./utils/Functions/admin.functions');
 const { sendCommonTextMessage } = require('./utils/Functions/common.functions');
 
 const client = new Client({
@@ -41,14 +42,15 @@ client.on('message', async (msg) => {
   console.log('MESSAGE RECEIVED', msg);
 
   if (admins.includes(msg.from) && !msg.isGroup) {
-    console.log('ADMIN');
     /**
      * @type if message is not form any group
      * @private
      * @can be used by Admins only
      */
-    if (msg.body.toLocaleLowerCase()) {
-      client.sendMessage(...sendCommonTextMessage(msg.from, msg.body));
+    if (msg.body.includes('!generate')) {
+      msg.reply(generateNumbers(msg)); // generate random Numbers
+    } else if (msg.body.toLocaleLowerCase()) {
+      client.sendMessage(...sendCommonTextMessage(msg.from, msg.body)); // reply To SomeOne Would Be At Last
     }
   } else if (msg.isGroup) {
     /**
@@ -105,7 +107,7 @@ client.on('message_ack', (msg, ack) => {
 client.on('group_join', (notification) => {
   // User has joined or been added to the group.
   console.log('join', notification);
-  notification.reply('User joined.');
+  // notification.reply('User joined.');
 });
 
 client.on('group_leave', (notification) => {
@@ -116,7 +118,7 @@ client.on('group_leave', (notification) => {
 
 client.on('group_update', (notification) => {
   // Group picture, subject or description has been updated.
-  console.log('update', notification);
+  // console.log('update', notification);
 });
 
 client.on('change_state', (state) => {
