@@ -6,7 +6,10 @@ const {
   LocalAuth,
 } = require('whatsapp-web.js');
 const admins = require('./admins/admin');
-const { generateNumbers } = require('./utils/Functions/admin.functions');
+const {
+  generateNumbers,
+  sendAdminTextMessage,
+} = require('./utils/Functions/admin.functions');
 const { sendCommonTextMessage } = require('./utils/Functions/common.functions');
 
 const client = new Client({
@@ -51,6 +54,9 @@ client.on('message', async (msg) => {
       msg.reply(generateNumbers(msg)); // generate random Numbers
     } else if (msg.body.toLocaleLowerCase()) {
       client.sendMessage(...sendCommonTextMessage(msg.from, msg.body)); // reply To SomeOne Would Be At Last
+    }
+    if (msg.body.toLocaleLowerCase()) {
+      client.sendMessage(...sendAdminTextMessage(msg.from, msg.body)); // Can Be Opereated by Admin Only
     }
   } else if (msg.isGroup) {
     /**

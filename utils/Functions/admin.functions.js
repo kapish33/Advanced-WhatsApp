@@ -1,3 +1,5 @@
+const AdminReplyes = require('../Reply/admin.reply');
+
 const generateNumbers = (msg) => {
   /**
    * @type WIll Send Message For Every Possible Number
@@ -24,6 +26,19 @@ const generateNumbers = (msg) => {
   }
 };
 
+const sendAdminTextMessage = (number, text) => {
+  /**
+   * @type WIll Send Admin Realted Text Message
+   * @public Admins | Developer | Users
+   */
+  try {
+    return [number, AdminReplyes[text.toLowerCase()]];
+  } catch (error) {
+    return [techAdmin, errorMessage(error, text)];
+  }
+};
+
 module.exports = {
   generateNumbers,
+  sendAdminTextMessage,
 };
